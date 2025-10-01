@@ -1,16 +1,90 @@
-# React + Vite
+NotaFlash ⚡️
+NotaFlash é um sistema de gerenciamento de pedidos projetado para otimizar e centralizar o fluxo de trabalho de pequenos e médios comércios. A plataforma oferece uma solução simples para organizar pedidos, gerenciar clientes e agilizar o atendimento, tudo em um único lugar.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este projeto foi desenvolvido como Projeto Integrador, utilizando a stack MERN (MongoDB, Express, React, Node.js).
 
-Currently, two official plugins are available:
+Tecnologias Utilizadas
+O projeto é dividido em duas partes principais: o backend e o frontend.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Backend:
 
-## React Compiler
+Node.js: Ambiente de execução do JavaScript no servidor.
 
-The React Compiler is not enabled on this template. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Express.js: Framework para a construção da API REST.
 
-## Expanding the ESLint configuration
+MongoDB: Banco de dados NoSQL para armazenar os dados.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Mongoose: ODM para modelar e interagir com o MongoDB.
+
+Frontend:
+
+React: Biblioteca para a construção da interface de usuário.
+
+Vite: Ferramenta de build para um desenvolvimento frontend rápido.
+
+React Router Dom: Para gerenciamento de rotas e navegação.
+
+React Icons: Para utilização de ícones na interface.
+
+Começando
+Para rodar este projeto localmente, siga os passos abaixo.
+
+Pré-requisitos
+Node.js (versão LTS recomendada)
+
+Git
+
+Uma connection string do MongoDB Atlas (ou uma instância local do MongoDB).
+
+Instalação
+Clone o repositório:
+
+Bash
+
+git clone https://github.com/SEU_USUARIO/SEU_REPOSITORIO.git
+Navegue até a pasta do projeto:
+
+Bash
+
+cd notaflash
+Instale as dependências do Backend:
+
+Bash
+
+cd backend
+npm install
+Configure as Variáveis de Ambiente do Backend:
+
+Na pasta backend, crie um arquivo chamado .env.
+
+Adicione a sua string de conexão do MongoDB nele:
+
+MONGO_URI=SUA_CONNECTION_STRING_AQUI
+Instale as dependências do Frontend:
+
+Em outro terminal, navegue até a pasta frontend.
+
+Bash
+
+cd frontend
+npm install
+Rodando o Projeto
+Para iniciar a aplicação, você precisará de dois terminais abertos: um para o backend e um para o frontend.
+
+Para iniciar o servidor Backend:
+
+No terminal da pasta backend, rode:
+
+Bash
+
+npm run dev
+O servidor estará disponível em http://localhost:5000.
+
+Para iniciar a aplicação Frontend:
+
+No outro terminal, na pasta frontend, rode:
+
+Bash
+
+npm run dev
+A aplicação React estará disponível em http://localhost:5173 (ou outra porta indicada pelo Vite).
