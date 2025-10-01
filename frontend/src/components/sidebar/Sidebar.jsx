@@ -1,20 +1,25 @@
 import { Link } from 'react-router-dom';
 import './Sidebar.css';
-import { FaHome, FaBox, FaChartBar, FaUsers, FaCog } from 'react-icons/fa';
+import NotaFlashLogo from '../../assets/NotaFlashLogo.svg'
+import HomeIcon from '../../assets/Home.svg'
+import OrderIcon from '../../assets/Order.svg'
+import AnalyticsIcon from '../../assets/Analytics.svg'
+import ClientIcon from '../../assets/Client.svg'
+import SettingsIcon from '../../assets/Settings.svg'
 
 const menuItems = [
-  { path: "/", name: "Início", icon: <FaHome /> },
-  { path: "/pedidos", name: "Pedidos", icon: <FaBox /> },
-  { path: "/relatorios", name: "Relatórios", icon: <FaChartBar /> },
-  { path: "/clientes", name: "Clientes", icon: <FaUsers /> },
-  { path: "/configuracoes", name: "Configurações", icon: <FaCog /> }
+  { path: "/", name: "Início", icon: <img src={HomeIcon} alt='Icone de Inicio' /> },
+  { path: "/pedidos", name: "Pedidos", icon: <img src={OrderIcon} alt='Icone de Pedidos' /> },
+  { path: "/relatorios", name: "Relatórios", icon: <img src={AnalyticsIcon} alt='Icone de Grafico' /> },
+  { path: "/clientes", name: "Clientes", icon: <img src={ClientIcon} alt='Icone de Clientes' /> },
+  { path: "/configuracoes", name: "Configurações", icon: <img src={SettingsIcon} alt='Icone de Configurações' /> }
 ];
 
 function Sidebar() {
   return (
     <div className="sidebar">
       <div className="sidebar-logo">
-        <h1>NotaFlash</h1>
+        <img src={NotaFlashLogo} alt="Logo NotaFlash" className='logo-img' />
       </div>
       <ul className="sidebar-menu">
         {menuItems.map((item, index) => (
