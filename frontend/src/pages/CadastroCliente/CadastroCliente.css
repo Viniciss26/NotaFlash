@@ -1,0 +1,134 @@
+.cadastro-page {
+  width: 100%;
+  background-color: #f5f5f5;
+}
+
+.cadastro-header {
+  background-color: #3d3d3d;
+  color: white;
+  padding: 30px 40px;
+  margin-bottom: 0;
+}
+
+.cadastro-header h1 {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 400;
+}
+
+.cadastro-content {
+  padding: 40px;
+  background-color: #f5f5f5;
+}
+
+.cadastro-form {
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-field label {
+  color: #333;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.form-field input,
+.form-field textarea {
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: inherit;
+  background-color: white;
+  transition: border-color 0.2s ease;
+}
+
+.form-field input:focus,
+.form-field textarea:focus {
+  outline: none;
+  border-color: #888;
+}
+
+.input-small {
+  max-width: 150px;
+}
+
+.form-field textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.btn-cadastrar,
+.btn-cancelar {
+  padding: 14px 32px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-cadastrar {
+  background-color: #2962ff;
+  color: white;
+}
+
+.btn-cadastrar:hover {
+  background-color: #1e4fd6;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(41, 98, 255, 0.3);
+}
+
+.btn-cancelar {
+  background-color: #f44336;
+  color: white;
+}
+
+.btn-cancelar:hover {
+  background-color: #d32f2f;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .cadastro-header {
+    padding: 20px;
+  }
+
+  .cadastro-header h1 {
+    font-size: 24px;
+  }
+
+  .cadastro-content {
+    padding: 20px;
+  }
+
+  .cadastro-form {
+    max-width: 100%;
+  }
+
+  .form-buttons {
+    flex-direction: column;
+  }
+
+  .btn-cadastrar,
+  .btn-cancelar {
+    width: 100%;
+  }
+}
