@@ -1,12 +1,12 @@
 .sidebar {
-  position: fixed;
-  left: 0;
-  top: 0;
+  position: relative;
+  flex-shrink: 0;
   height: 100vh;
   width: 200px;
   background-color: #2D2D2D;
   color: #FFFFFF;
   padding: 20px;
+  transition: width 0.3s ease;
 }
 
 .sidebar-logo {
@@ -34,6 +34,8 @@
   margin-bottom: 10px;
   font-size: 1.1rem;
   transition: background-color 0.2s;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .menu-item a:hover {
@@ -42,4 +44,40 @@
 
 .menu-icon {
   margin-right: 10px;
+}
+
+.sidebar-toggle {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  cursor: pointer;
+  padding: 5px;
+}
+
+.sidebar-toggle img {
+  width: 24px;
+  height: 100px;
+  filter: invert(0.8);
+  transition: filter 0.2s;
+}
+
+.sidebar-toggle:hover img {
+  filter: invert(1);
+}
+
+.sidebar.recolhido {
+  width: 80px;
+}
+
+.sidebar.recolhido .sidebar-logo {
+  display: none;
+}
+
+.sidebar.recolhido .menu-item a {
+  justify-content: center; 
+}
+
+.sidebar.recolhido .menu-icon {
+  margin-right: 0; 
 }

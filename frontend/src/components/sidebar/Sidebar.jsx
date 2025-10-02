@@ -5,19 +5,23 @@ import HomeIcon from '../../assets/Home.svg'
 import OrderIcon from '../../assets/Order.svg'
 import AnalyticsIcon from '../../assets/Analytics.svg'
 import ClientIcon from '../../assets/Client.svg'
+import NewProduct from '../../assets/NewProduct.svg'
 import SettingsIcon from '../../assets/Settings.svg'
+import DoubleLeft from '../../assets/DoubleLeft.svg'
+import DoubleRight from '../../assets/DoubleRight.svg'
 
 const menuItems = [
   { path: "/", name: "Início", icon: <img src={HomeIcon} alt='Icone de Inicio' /> },
   { path: "/pedidos", name: "Pedidos", icon: <img src={OrderIcon} alt='Icone de Pedidos' /> },
   { path: "/relatorios", name: "Relatórios", icon: <img src={AnalyticsIcon} alt='Icone de Grafico' /> },
   { path: "/clientes", name: "Clientes", icon: <img src={ClientIcon} alt='Icone de Clientes' /> },
+  { path: "/produtos", name: "Produto", icon: <img src={NewProduct} alt='Icone de Novo Produto' /> },
   { path: "/configuracoes", name: "Configurações", icon: <img src={SettingsIcon} alt='Icone de Configurações' /> }
 ];
 
-function Sidebar() {
+function Sidebar({ recolhida, toggle}) {
   return (
-    <div className="sidebar">
+    <div className={`sidebar ${recolhida ? 'recolhido' : ''}`}>
       <div className="sidebar-logo">
         <img src={NotaFlashLogo} alt="Logo NotaFlash" className='logo-img' />
       </div>
@@ -26,11 +30,18 @@ function Sidebar() {
           <li key={index} className="menu-item">
             <Link to={item.path}>
               <span className="menu-icon">{item.icon}</span>
-              <span className="menu-text">{item.name}</span>
+              {!recolhida && <span className="menu-text">{item.name}</span>}
             </Link>
           </li>
         ))}
       </ul>
+      <div className="sidebar-toggle" onClick={toggle}>
+        {recolhida ? (
+          <img src={DoubleRight} alt="Expandir Sidebar" />
+        ) : (
+          <img src={DoubleLeft} alt="Recolher Sidebar" />
+        )}
+      </div>
     </div>
   );
 }
