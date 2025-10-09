@@ -1,126 +1,74 @@
 import { useState } from 'react';
+import axios from 'axios'; 
 import './CadastroCliente.css';
 
 function CadastroCliente() {
-  const [formData, setFormData] = useState({
-    nomeCliente: '',
-    telefone: '',
-    cep: '',
-    endereco: '',
-    bairro: '',
-    descricao: ''
-  });
+  const [nome, setNome] = useState('');
+  const [telefone, setTelefone] = useState('');
+  const [cep, setCep] = useState('');
+  const [endereco, setEndereco] = useState('');
+  const [bairro, setBairro] = useState('');
+  const [descricao, setDescricao] = useState('');
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    
+    const novoCliente = { nome, telefone, cep, endereco, bairro, descricao };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Dados do cliente:', formData);
-    alert('Cliente cadastrado com sucesso!');
-    setFormData({
-      nomeCliente: '',
-      telefone: '',
-      cep: '',
-      endereco: '',
-      bairro: '',
-      descricao: ''
-    });
-  };
+    try {
+      await axios.post('http://localhost:5000/api/clientes', novoCliente);
 
-  const handleCancel = () => {
-    window.history.back();
+      alert(`Cliente "${nome}" cadastrado com sucesso!`);
+      
+      // Limpa os campos do formulário após o sucesso
+      setNome('');
+      setTelefone('');
+      setCep('');
+      setEndereco('');
+      setBairro('');
+      setDescricao('');
+
+    } catch (error) {
+      console.error("Ocorreu um erro ao cadastrar o cliente:", error);
+      alert('Falha ao cadastrar cliente. Verifique o console do navegador para detalhes.');
+    }
   };
 
   return (
-    <div className="cadastro-page">
-      <div className="cadastro-header">
-        <h1>Cadastrar Novo Cliente</h1>
-      </div>
-
-      <div className="cadastro-content">
-        <form onSubmit={handleSubmit} className="cadastro-form">
-          <div className="form-field">
-            <label htmlFor="nomeCliente">Nome do Cliente / Estabelecimento:</label>
-            <input
-              type="text"
-              id="nomeCliente"
-              name="nomeCliente"
-              value={formData.nomeCliente}
-              onChange={handleChange}
-              required
-            />
+    <div className="clientes-page">
+      <h2>Cadastro de Clientes</h2>
+      <div className="form-container-cliente">
+        <h3>Adicionar Novo Cliente</h3>
+        <form onSubmit={handleSubmit}>
+          {/* O seu formulário (JSX) está perfeito e não precisa de mudanças */}
+          <div className="form-grid-cliente">
+            <div className="form-group-cliente full-width">
+              <label htmlFor="nome">Nome do Cliente / Estabelecimento</label>
+              <input type="text" id="nome" value={nome} onChange={(e) => setNome(e.target.value)} required />
+            </div>
+            <div className="form-group-cliente">
+              <label htmlFor="telefone">Telefone</label>
+              <input type="tel" id="telefone" value={telefone} onChange={(e) => setTelefone(e.target.value)} required />
+            </div>
+            <div className="form-group-cliente">
+              <label htmlFor="cep">CEP</label>
+              <input type="text" id="cep" value={cep} onChange={(e) => setCep(e.target.value)} />
+            </div>
+            <div className="form-group-cliente full-width">
+              <label htmlFor="endereco">Endereço</label>
+              <input type="text" id="endereco" value={endereco} onChange={(e) => setEndereco(e.target.value)} />
+            </div>
+            <div className="form-group-cliente full-width">
+              <label htmlFor="bairro">Bairro</label>
+              <input type="text" id="bairro" value={bairro} onChange={(e) => setBairro(e.target.value)} />
+            </div>
+            <div className="form-group-cliente full-width">
+              <label htmlFor="descricao">Descrição / Observações</label>
+              <textarea id="descricao" value={descricao} onChange={(e) => setDescricao(e.target.value)}></textarea>
+            </div>
           </div>
-
-          <div className="form-field">
-            <label htmlFor="telefone">Telefone:</label>
-            <input
-              type="tel"
-              id="telefone"
-              name="telefone"
-              value={formData.telefone}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="form-field">
-            <label htmlFor="cep">Cep:</label>
-            <input
-              type="text"
-              id="cep"
-              name="cep"
-              value={formData.cep}
-              onChange={handleChange}
-              className="input-small"
-            />
-          </div>
-
-          <div className="form-field">
-            <label htmlFor="endereco">Endereço:</label>
-            <input
-              type="text"
-              id="endereco"
-              name="endereco"
-              value={formData.endereco}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="form-field">
-            <label htmlFor="bairro">Bairro:</label>
-            <input
-              type="text"
-              id="bairro"
-              name="bairro"
-              value={formData.bairro}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="form-field">
-            <label htmlFor="descricao">Descrição:</label>
-            <textarea
-              id="descricao"
-              name="descricao"
-              value={formData.descricao}
-              onChange={handleChange}
-              rows="4"
-            />
-          </div>
-
-          <div className="form-buttons">
-            <button type="submit" className="btn-cadastrar">
-              Cadastrar Novo Cliente
-            </button>
-            <button type="button" className="btn-cancelar" onClick={handleCancel}>
-              Cancelar
-            </button>
+          <div className="form-actions-cliente">
+            <button type="submit" className="submit-btn-cliente">Cadastrar Cliente</button>
           </div>
         </form>
       </div>

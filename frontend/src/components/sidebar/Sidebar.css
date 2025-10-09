@@ -1,27 +1,36 @@
+/*Telas Maiores */
 .sidebar {
   position: relative;
+  top: 0;
   flex-shrink: 0;
   height: 100vh;
   width: 200px;
   background-color: #2D2D2D;
   color: #FFFFFF;
   padding: 20px;
+  box-sizing: border-box;
   transition: width 0.3s ease;
+  display: flex;
+  flex-direction: column;
 }
 
 .sidebar-logo {
   text-align: center;
   margin-bottom: 30px;
+  flex-shrink: 0;
 }
 
 .logo-img {
-  width: 210px;
+  width: 100%;
+  max-width: 180px;
   height: auto;
 }
 
 .sidebar-menu {
   list-style-type: none;
   padding: 0;
+  margin: 0;
+  flex-grow: 1;
 }
 
 .menu-item a {
@@ -47,17 +56,15 @@
 }
 
 .sidebar-toggle {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
   cursor: pointer;
-  padding: 5px;
+  text-align: center;
+  padding-top: 20px;
+  flex-shrink: 0;
 }
 
 .sidebar-toggle img {
   width: 24px;
-  height: 100px;
+  height: 24px;
   filter: invert(0.8);
   transition: filter 0.2s;
 }
@@ -75,9 +82,49 @@
 }
 
 .sidebar.recolhido .menu-item a {
-  justify-content: center; 
+  justify-content: center;
 }
 
 .sidebar.recolhido .menu-icon {
-  margin-right: 0; 
+  margin-right: 0;
+}
+
+/*Telas Menores */
+
+@media (max-width: 1366px) {
+
+  .sidebar {
+    position: sticky;
+    top: 0;
+  }
+
+  .sidebar-menu {
+    overflow-y: auto;
+  }
+
+  .sidebar-menu::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .sidebar-menu::-webkit-scrollbar-track {
+    background: #2D2D2D;
+    border-radius: 10px;
+  }
+
+  .sidebar-menu::-webkit-scrollbar-thumb {
+    background-color: #6e6860;
+    border-radius: 10px;
+    border: 2px solid #2D2D2D;
+  }
+
+  .sidebar-menu::-webkit-scrollbar-thumb:hover {
+    background-color: #8a827a;
+  }
+
+  .menu-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  }
 }
