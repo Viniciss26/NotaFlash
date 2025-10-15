@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Sidebar from './components/sidebar/Sidebar';
-import ClientesPage from './pages/CadastroCliente/CadastroCliente';
 import ProdutosPage from './pages/produtos/ProdutosPage';
+import PedidosPage from './pages/pedidos/PedidosPage';
+import ListaClientes from './pages/listaClientes/ListaClientes';
+import CadastroCliente from './pages/cadastroCliente/CadastroCliente';
+import ListaProdutos from './pages/listaProdutos/ListaProdutos';
 
 function App() {
   const [sidebarRecolhida, setSidebarRecolhida] = useState(false);
@@ -18,8 +21,11 @@ function App() {
       <main className={`main-content ${sidebarRecolhida ? 'recolhido' : ''}`}>
         <Routes>
           <Route path="/" element={<h2>Página Inicial</h2>} />
-          <Route path="/clientes" element={<ClientesPage />} />
-          <Route path="/produtos" element={<ProdutosPage />} />
+          <Route path="/clientes" element={<ListaClientes />} />
+          <Route path='/clientes/cadastrar' element={<CadastroCliente />} />
+          <Route path="/produtos" element={<ListaProdutos />} />
+          <Route path='/produtos/cadastrar' element={<ProdutosPage />} />
+          <Route path='/pedidos' element={<PedidosPage />} />
         </Routes>
       </main>
     </div>

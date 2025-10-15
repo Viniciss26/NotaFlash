@@ -1,0 +1,221 @@
+.pedidos-page {
+    max-width: 900px;
+    margin: auto;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.pedido-card {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    margin-bottom: 25px;
+}
+
+.pedido-card h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #2c3e50;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
+}
+
+.form-group-pedido {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.form-group-pedido label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #555;
+}
+
+.form-group-pedido input,
+.form-group-pedido textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+/* --- ESTILOS DO COMPONENTE DE BUSCA (NOVO) --- */
+.search-results {
+    position: absolute;
+    width: 100%;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    z-index: 10;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.search-results div {
+    padding: 12px;
+    cursor: pointer;
+}
+
+.search-results div:hover {
+    background-color: #f0f0f0;
+}
+
+.cliente-selecionado {
+    background-color: #eaf5ff;
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid #bde0ff;
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* --- FIM DOS ESTILOS DE BUSCA --- */
+
+.add-produto-grid {
+    display: flex;
+    gap: 15px;
+    align-items: flex-end;
+}
+
+.add-produto-grid .form-group-pedido:first-child {
+    flex-grow: 1;
+}
+
+.add-produto-grid input,
+.add-produto-grid select {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    background-color: #fff;
+    height: 47px;
+}
+
+.add-produto-grid input[type="text"] {
+    width: 100%;
+}
+.add-produto-grid input[type="number"] {
+    width: 100px;
+}
+.add-produto-grid select {
+    width: 90px;
+}
+
+.quantidade-container {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+.quantidade-container input {
+    border: none;
+    width: 80px;
+}
+.quantidade-container span {
+    padding-right: 10px;
+    color: #777;
+    font-weight: 500;
+}
+
+
+.add-produto-btn {
+    background-color: #27ae60;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    height: 47px;
+    transition: background-color 0.2s;
+    box-sizing: border-box;
+
+    align-self: flex-end;
+}
+
+.add-produto-btn:hover {
+    background-color: #229954;
+}
+
+/* Tabela de Resumo */
+.resumo-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.resumo-table th,
+.resumo-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.resumo-table thead th {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.item-actions .remover-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.total-container {
+    text-align: right;
+    margin-top: 20px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.finalizar-pedido-btn {
+    width: 100%;
+    background-color: #3498db;
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.finalizar-pedido-btn:hover {
+    background-color: #2980b9;
+}
+
+.btn-trocar-cliente {
+    background-color: transparent; /* Fundo transparente */
+    color: #3498db; /* Cor azul como link */
+    border: 1px solid #3498db; /* Borda sutil */
+    padding: 6px 12px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-trocar-cliente:hover {
+    background-color: #3498db; /* Fundo azul no hover */
+    color: white; /* Texto branco no hover */
+    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+}

@@ -2,6 +2,11 @@ body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
   background-color: #F0F0F0;
+  overflow: hidden;
+}
+
+html, body, #root, .app-container {
+  height: 100%;
 }
 
 .app-container {
@@ -11,4 +16,5 @@ body {
 .main-content {
   flex-grow: 1;
   padding: 20px;
+  overflow-y: auto;
 }
