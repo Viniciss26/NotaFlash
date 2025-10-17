@@ -1,21 +1,31 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'; // Importante para o botão de navegação
-import './ListaClientes.css'; // Vamos criar este arquivo a seguir
-
-// Usando os mesmos dados de exemplo
-const mockClientes = [
-    { _id: '1', nome: 'Padaria Pão Quente', telefone: '(11) 98765-4321', endereco: 'Rua das Flores, 123' },
-    { _id: '2', nome: 'Mercadinho do Zé', telefone: '(21) 91234-5678', endereco: 'Av. Principal, 456' },
-    { _id: '3', nome: 'Lanchonete Sabor & Cia', telefone: '(31) 95555-8888', endereco: 'Praça da Matriz, 789' },
-];
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import './ListaClientes.css';
 
 function ListaClientes() {
-  const [clientes, setClientes] = useState(mockClientes);
+  const [clientes, setClientes] = useState([]);
   const [filtro, setFiltro] = useState('');
-  const [clientesFiltrados, setClientesFiltrados] = useState(mockClientes);
+  const [clientesFiltrados, setClientesFiltrados] = useState([]);
+
+  const navigate = useNavigate()
 
   useEffect(() => {
-    // A lógica de busca continua a mesma
+    const fetchClientes = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/clientes');
+        setClientes(response.data);
+        setClientesFiltrados(response.data);
+      } catch (error) {
+        console.error("Erro ao buscar clientes:", error);
+        alert('Não foi possível carregar a lista de clientes do servidor.');
+      }
+    };
+
+    fetchClientes();
+  }, []);
+
+  useEffect(() => {
     const resultado = clientes.filter(cliente =>
       cliente.nome.toLowerCase().includes(filtro.toLowerCase())
     );
@@ -23,11 +33,24 @@ function ListaClientes() {
   }, [filtro, clientes]);
 
   const handleEditar = (id) => {
-    alert(`Lógica para ir para a página de edição do cliente ID: ${id}`);
+    navigate(`/clientes/editar/${id}`)
   };
 
-  const handleExcluir = (id) => {
-    alert(`Lógica para excluir o cliente ID: ${id}`);
+  const handleExcluir = async (id) => {
+    const confirmado = window.confirm('Tem certeza que deseja excluir este cliente?');
+
+    if (confirmado) {
+      try {
+        await axios.delete(`http://localhost:5000/api/clientes/${id}`);
+        const novosClientes = clientes.filter(cliente => cliente._id !== id);
+        setClientes(novosClientes);
+
+        alert('Cliente excluído com sucesso!');
+      } catch (error) {
+        console.error("Erro ao excluir cliente:", error);
+        alert('Ocorreu um erro ao tentar excluir o cliente.');
+      }
+    }
   };
 
   return (

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios'; 
-import './CadastroCliente.css';
+import './ClientePage.css';
 
 function CadastroCliente() {
   const [nome, setNome] = useState('');
@@ -20,7 +20,6 @@ function CadastroCliente() {
 
       alert(`Cliente "${nome}" cadastrado com sucesso!`);
       
-      // Limpa os campos do formulário após o sucesso
       setNome('');
       setTelefone('');
       setCep('');
@@ -40,7 +39,6 @@ function CadastroCliente() {
       <div className="form-container-cliente">
         <h3>Adicionar Novo Cliente</h3>
         <form onSubmit={handleSubmit}>
-          {/* O seu formulário (JSX) está perfeito e não precisa de mudanças */}
           <div className="form-grid-cliente">
             <div className="form-group-cliente full-width">
               <label htmlFor="nome">Nome do Cliente / Estabelecimento</label>

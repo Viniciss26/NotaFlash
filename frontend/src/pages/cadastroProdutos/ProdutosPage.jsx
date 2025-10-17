@@ -1,8 +1,8 @@
 import { useState } from 'react';
+import axios from 'axios'
 import './ProdutosPage.css';
 
 function CadastroProduto() {
-  // Estados para cada campo do formulário
   const [nome, setNome] = useState('');
   const [precoVenda, setPrecoVenda] = useState('');
   const [unidade, setUnidade] = useState('un');
@@ -10,12 +10,26 @@ function CadastroProduto() {
   const [codigo, setCodigo] = useState('');
   const [descricao, setDescricao] = useState('');
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const novoProduto = { nome, precoVenda, unidade, grupo, codigo, descricao };
-    console.log('Novo Produto Cadastrado:', novoProduto);
-    alert(`Produto "${nome}" cadastrado com sucesso! (Simulação)`);
-    // Futuramente, podemos limpar os campos aqui
+    
+    try {
+      await axios.post('http://localhost:5000/api/produtos', novoProduto);
+      
+      alert(`Produto "${nome}" cadastrado com sucesso!`);
+      
+      setNome('');
+      setPrecoVenda('');
+      setUnidade('un');
+      setGrupo('');
+      setCodigo('');
+      setDescricao('');
+
+    } catch (error) {
+      console.error("Erro ao cadastrar produto:", error);
+      alert('Ocorreu um erro ao cadastrar o produto.');
+    }
   };
 
   return (

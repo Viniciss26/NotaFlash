@@ -47,7 +47,6 @@
     box-sizing: border-box;
 }
 
-/* --- ESTILOS DO COMPONENTE DE BUSCA (NOVO) --- */
 .search-results {
     position: absolute;
     width: 100%;
@@ -79,8 +78,6 @@
     justify-content: space-between;
     align-items: center;
 }
-
-/* --- FIM DOS ESTILOS DE BUSCA --- */
 
 .add-produto-grid {
     display: flex;
@@ -150,7 +147,6 @@
     background-color: #229954;
 }
 
-/* Tabela de Resumo */
 .resumo-table {
     width: 100%;
     border-collapse: collapse;
@@ -204,9 +200,9 @@
 }
 
 .btn-trocar-cliente {
-    background-color: transparent; /* Fundo transparente */
-    color: #3498db; /* Cor azul como link */
-    border: 1px solid #3498db; /* Borda sutil */
+    background-color: transparent; 
+    color: #3498db;
+    border: 1px solid #3498db; 
     padding: 6px 12px;
     border-radius: 5px;
     font-size: 0.9rem;
@@ -215,7 +211,7 @@
 }
 
 .btn-trocar-cliente:hover {
-    background-color: #3498db; /* Fundo azul no hover */
-    color: white; /* Texto branco no hover */
+    background-color: #3498db;
+    color: white; 
     box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
 }

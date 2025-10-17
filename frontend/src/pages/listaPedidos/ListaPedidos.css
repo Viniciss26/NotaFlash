@@ -1,0 +1,113 @@
+.lista-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.lista-header h2 {
+    margin: 0;
+}
+
+.btn-adicionar {
+    background-color: #27ae60;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.btn-adicionar:hover {
+    background-color: #229954;
+}
+
+.lista-pedidos-page h2 {
+    margin-top: 0;
+    margin-bottom: 25px;
+    color: #2c3e50;
+}
+
+.date-group {
+    margin-bottom: 30px;
+}
+
+.date-header {
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.date-header h3 {
+    margin: 0;
+    color: #34495e;
+    font-size: 1.4rem;
+}
+
+.pedidos-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+.pedidos-table th,
+.pedidos-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: middle;
+}
+
+.pedidos-table tr:last-child td {
+    border-bottom: none;
+}
+
+.pedidos-table thead th {
+    background-color: #f8f9fa;
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.status {
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.status-pendente {
+    background-color: #f1c40f;
+    color: #333;
+}
+
+.status-finalizado {
+    background-color: #2ecc71;
+    color: white;
+}
+
+.status-cancelado {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.actions-cell button {
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 8px;
+    transition: background-color 0.2s;
+}
+
+.btn-detalhes {
+    background-color: #3498db;
+    color: white;
+}
+.btn-detalhes:hover {
+    background-color: #2980b9;
+}

@@ -12,7 +12,7 @@ import DoubleRight from '../../assets/DoubleRight.svg'
 
 const menuItems = [
   { path: "/", name: "Início", icon: <img src={HomeIcon} alt='Icone de Inicio' /> },
-  { path: "/pedidos", name: "Pedidos", icon: <img src={OrderIcon} alt='Icone de Pedidos' /> },
+  { path: "/pedidos/lista", name: "Pedidos", icon: <img src={OrderIcon} alt='Icone de Pedidos' /> },
   { path: "/relatorios", name: "Relatórios", icon: <img src={AnalyticsIcon} alt='Icone de Grafico' /> },
   { path: "/clientes", name: "Clientes", icon: <img src={ClientIcon} alt='Icone de Clientes' /> },
   { path: "/produtos", name: "Produto", icon: <img src={NewProduct} alt='Icone de Novo Produto' /> },

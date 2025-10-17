@@ -1,14 +1,9 @@
-.lista-container {
+.lista-header-container {
     background-color: #ffffff;
-    padding: 25px;
+    padding: 20px 25px;
     border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    animation: fadeIn 0.5s ease-in-out;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    margin-bottom: 25px;
 }
 
 .lista-header {
@@ -16,8 +11,6 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-    border-bottom: 2px solid #f0f0f0;
-    padding-bottom: 10px;
 }
 
 .lista-header h2 {
@@ -39,10 +32,6 @@
     background-color: #229954;
 }
 
-.search-bar {
-    margin-bottom: 20px;
-}
-
 .search-bar input {
     width: 100%;
     padding: 12px;
@@ -52,22 +41,55 @@
     box-sizing: border-box;
 }
 
-.clientes-table {
-    width: 100%;
-    border-collapse: collapse;
+.categorias-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 25px;
 }
 
-.clientes-table th,
-.clientes-table td {
-    padding: 15px;
-    text-align: left;
-    border-bottom: 1px solid #f0f0f0;
-    vertical-align: middle;
+.categoria-bloco {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    animation: fadeIn 0.5s ease-in-out;
 }
 
-.clientes-table thead th {
-    color: #2c3e50;
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.categoria-titulo {
+    background-color: #f8f9fa;
+    color: #495057;
+    padding: 15px 20px;
+    font-size: 1.1rem;
     font-weight: 600;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.produto-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #f8f9fa;
+}
+
+.produto-item:last-child {
+    border-bottom: none;
+}
+
+.produto-info .nome {
+    font-weight: 500;
+    color: #333;
+}
+.produto-info .preco {
+    font-size: 0.9rem;
+    color: #27ae60;
+    font-weight: bold;
+    margin-left: 10px;
 }
 
 .actions-cell button {
@@ -77,7 +99,7 @@
     cursor: pointer;
     font-size: 0.9rem;
     font-weight: 500;
-    margin-right: 8px;
+    margin-left: 8px;
     transition: all 0.2s ease-in-out;
 }
 

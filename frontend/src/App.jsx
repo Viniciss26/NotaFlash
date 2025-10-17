@@ -1,11 +1,16 @@
 import { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Sidebar from './components/sidebar/Sidebar';
-import ProdutosPage from './pages/produtos/ProdutosPage';
-import PedidosPage from './pages/pedidos/PedidosPage';
+import ProdutosPage from './pages/cadastroProdutos/ProdutosPage';
+import PedidosPage from './pages/cadastroPedidos/PedidosPage';
 import ListaClientes from './pages/listaClientes/ListaClientes';
-import CadastroCliente from './pages/cadastroCliente/CadastroCliente';
-import ListaProdutos from './pages/listaProdutos/ListaProdutos';
+import CadastroCliente from './pages/cadastroCliente/ClientePage';
+import CategoriaDeProduto from './pages/categorias/CategoriaDeProduto';
+import EditarCliente from './pages/edicao/EditarCliente';
+import EditarProduto from './pages/edicao/EditarProduto';
+import ProdutosDaCategoria from './pages/categorias/ProdutosDaCategoria';
+import ListaPedidos from './pages/listaPedidos/ListaPedidos';
+import DetalhesPedido from './pages/detalhesPedido/DetalhesPedido';
 
 function App() {
   const [sidebarRecolhida, setSidebarRecolhida] = useState(false);
@@ -23,9 +28,14 @@ function App() {
           <Route path="/" element={<h2>Página Inicial</h2>} />
           <Route path="/clientes" element={<ListaClientes />} />
           <Route path='/clientes/cadastrar' element={<CadastroCliente />} />
-          <Route path="/produtos" element={<ListaProdutos />} />
+          <Route path='/clientes/editar/:id' element={<EditarCliente />} />
+          <Route path="/produtos" element={<CategoriaDeProduto />} />
+          <Route path='/produtos/:categoria' element={<ProdutosDaCategoria />} />
           <Route path='/produtos/cadastrar' element={<ProdutosPage />} />
+          <Route path='/produtos/editar/:id' element={<EditarProduto />} />
           <Route path='/pedidos' element={<PedidosPage />} />
+          <Route path='pedidos/lista' element={<ListaPedidos />} />
+          <Route path='/pedidos/:id' element={<DetalhesPedido />} />
         </Routes>
       </main>
     </div>
