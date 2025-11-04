@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../../api';
 import '../cadastroProdutos/ProdutosPage.css'; 
 
 function EditarProduto() {
@@ -17,7 +17,7 @@ function EditarProduto() {
   useEffect(() => {
     const fetchProduto = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/produtos/${id}`);
+        const response = await api.get(`/produtos/${id}`);
         const produto = response.data;
         setNome(produto.nome);
         setPrecoVenda(produto.precoVenda);
@@ -38,7 +38,7 @@ function EditarProduto() {
     const produtoAtualizado = { nome, precoVenda, unidade, grupo, codigo, descricao };
     
     try {
-      await axios.put(`http://localhost:5000/api/produtos/${id}`, produtoAtualizado);
+      await api.put(`/produtos/${id}`, produtoAtualizado);
       alert('Produto atualizado com sucesso!');
       navigate('/produtos');
     } catch (error) {

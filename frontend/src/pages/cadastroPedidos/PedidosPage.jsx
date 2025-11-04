@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../api';
 import './PedidosPage.css';
 
 function PedidosPage() {
@@ -22,8 +22,8 @@ function PedidosPage() {
     const carregarDadosIniciais = async () => {
       try {
         const [resClientes, resProdutos] = await Promise.all([
-          axios.get('http://localhost:5000/api/clientes'),
-          axios.get('http://localhost:5000/api/produtos')
+          api.get('/clientes'),
+          api.get('/produtos')
         ]);
         setClientes(resClientes.data);
         setProdutos(resProdutos.data);
@@ -113,7 +113,7 @@ function PedidosPage() {
     };
 
     try {
-      await axios.post('http://localhost:5000/api/pedidos', pedidoData);
+      await api.post('/pedidos', pedidoData);
       alert('Pedido cadastrado com sucesso!');
       setClienteSelecionado(null);
       setItensDoPedido([]);

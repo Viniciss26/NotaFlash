@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../../api';
 import './CategoriaDeProduto.css'; 
 
 function CategoriasPage() {
@@ -9,7 +9,7 @@ function CategoriasPage() {
   useEffect(() => {
     const fetchCategorias = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/produtos');
+        const response = await api.get('/produtos');
         const produtos = response.data;
         const categoriasUnicas = [...new Set(produtos.map(p => p.grupo || 'Sem Categoria'))];
         setCategorias(categoriasUnicas);

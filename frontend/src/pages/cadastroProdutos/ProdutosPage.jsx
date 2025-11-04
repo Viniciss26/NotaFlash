@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axios from 'axios'
+import api from '../../api';
 import './ProdutosPage.css';
 
 function CadastroProduto() {
@@ -15,7 +15,7 @@ function CadastroProduto() {
     const novoProduto = { nome, precoVenda, unidade, grupo, codigo, descricao };
     
     try {
-      await axios.post('http://localhost:5000/api/produtos', novoProduto);
+      await api.post('/produtos', novoProduto);
       
       alert(`Produto "${nome}" cadastrado com sucesso!`);
       

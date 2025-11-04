@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../../api';
 import '../cadastroCliente/ClientePage.css';
 
 function EditarCliente() {
@@ -17,7 +17,7 @@ function EditarCliente() {
   useEffect(() => {
     const fetchCliente = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/clientes/${id}`);
+        const response = await api.get(`/clientes/${id}`);
         const cliente = response.data;
         setNome(cliente.nome);
         setTelefone(cliente.telefone);
@@ -39,7 +39,7 @@ function EditarCliente() {
     const clienteAtualizado = { nome, telefone, cep, endereco, bairro, descricao };
     
     try {
-      await axios.put(`http://localhost:5000/api/clientes/${id}`, clienteAtualizado);
+      await api.put(`/clientes/${id}`, clienteAtualizado);
       alert('Cliente atualizado com sucesso!');
       navigate('/clientes');
     } catch (error) {

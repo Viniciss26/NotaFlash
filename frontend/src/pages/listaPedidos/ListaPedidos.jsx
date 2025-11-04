@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../../api';
 import { format, isToday, isYesterday } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import './ListaPedidos.css';
@@ -42,7 +42,7 @@ function ListaPedidos() {
         if (dataInicio) params.append('dataInicio', dataInicio);
         if (dataFim) params.append('dataFim', dataFim);
 
-        const response = await axios.get(`http://localhost:5000/api/pedidos`, { params });
+        const response = await api.get(`/pedidos`, { params });
 
         const agrupados = agruparPedidosPorData(response.data);
         setPedidosAgrupados(agrupados);n

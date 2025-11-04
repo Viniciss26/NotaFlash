@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../../api';
 import './ListaClientes.css';
 
 function ListaClientes() {
@@ -13,7 +13,7 @@ function ListaClientes() {
   useEffect(() => {
     const fetchClientes = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/clientes');
+        const response = await api.get('/clientes');
         setClientes(response.data);
         setClientesFiltrados(response.data);
       } catch (error) {
@@ -41,7 +41,7 @@ function ListaClientes() {
 
     if (confirmado) {
       try {
-        await axios.delete(`http://localhost:5000/api/clientes/${id}`);
+        await api.delete(`/clientes/${id}`);
         const novosClientes = clientes.filter(cliente => cliente._id !== id);
         setClientes(novosClientes);
 

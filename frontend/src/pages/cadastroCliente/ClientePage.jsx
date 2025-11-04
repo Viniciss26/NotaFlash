@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axios from 'axios'; 
+import api from '../../api';
 import './ClientePage.css';
 
 function CadastroCliente() {
@@ -16,7 +16,7 @@ function CadastroCliente() {
     const novoCliente = { nome, telefone, cep, endereco, bairro, descricao };
 
     try {
-      await axios.post('http://localhost:5000/api/clientes', novoCliente);
+      await api.post('/clientes', novoCliente);
 
       alert(`Cliente "${nome}" cadastrado com sucesso!`);
       

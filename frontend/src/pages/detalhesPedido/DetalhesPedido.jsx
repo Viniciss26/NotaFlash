@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../../api';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import './DetalhesPedido.css'; 
@@ -12,7 +12,7 @@ function DetalhesPedido() {
   useEffect(() => {
     const fetchPedido = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/pedidos/${id}`);
+        const response = await api.get(`/pedidos/${id}`);
         setPedido(response.data);
       } catch (error) {
         console.error("Erro ao buscar detalhes do pedido:", error);

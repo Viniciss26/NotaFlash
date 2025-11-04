@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
+import api from '../../api';
 import './ProdutosDaCategoria.css';
 
 function ProdutosCategoria() {
@@ -13,7 +13,7 @@ function ProdutosCategoria() {
   useEffect(() => {
     const fetchProdutos = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/produtos/categoria/${categoria}`);
+        const response = await api.get(`/produtos/categoria/${categoria}`);
         setProdutos(response.data);
         setProdutosFiltrados(response.data);
       } catch (error) {
@@ -38,7 +38,7 @@ function ProdutosCategoria() {
   const handleExcluir = async (id) => {
       if (window.confirm('Tem certeza que deseja excluir este produto?')) {
           try {
-              await axios.delete(`http://localhost:5000/api/produtos/${id}`);
+              await api.delete(`/produtos/${id}`);
               setProdutos(produtos.filter(p => p._id !== id));
               alert('Produto excluído com sucesso!');
           } catch (error) {
