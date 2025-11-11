@@ -1,113 +1,205 @@
+/* Layout Principal da Página */
+.lista-pedidos-page {
+  padding: 20px;
+  max-width: 95%;
+  margin: 0 auto;
+}
+
+/* Cabeçalho (Título + Botão Novo Pedido) */
 .lista-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 15px;
 }
 
 .lista-header h2 {
-    margin: 0;
+  color: #333;
 }
 
 .btn-adicionar {
-    background-color: #27ae60;
-    color: white;
-    padding: 10px 18px;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: 500;
-    transition: background-color 0.2s;
+  background-color: #28a745; /* Verde "adicionar" */
+  color: white;
+  padding: 10px 18px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 0.9em;
+  transition: background-color 0.2s;
 }
 
 .btn-adicionar:hover {
-    background-color: #229954;
+  background-color: #218838;
 }
 
-.lista-pedidos-page h2 {
-    margin-top: 0;
-    margin-bottom: 25px;
-    color: #2c3e50;
+/* --- NOVO: Botões de Filtro --- */
+.filtros-pedidos {
+  margin-bottom: 25px;
+  display: flex;
+  gap: 10px;
 }
 
+.filtro-btn {
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  padding: 8px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 500;
+  color: #555;
+  transition: all 0.2s;
+}
+
+.filtro-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.filtro-btn.active {
+  background-color: #007bff; /* Azul "ativo" */
+  color: white;
+  border-color: #007bff;
+}
+/* --- FIM (Novo) --- */
+
+/* Grupos de Data */
 .date-group {
-    margin-bottom: 30px;
+  margin-bottom: 25px;
 }
 
 .date-header {
-    margin-bottom: 15px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #f0f0f0;
+  margin-bottom: 10px;
 }
 
 .date-header h3 {
-    margin: 0;
-    color: #34495e;
-    font-size: 1.4rem;
+  color: #555;
+  font-size: 1.1em;
+  font-weight: 600;
 }
 
+/* Tabela de Pedidos */
 .pedidos-table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    overflow: hidden;
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .pedidos-table th,
 .pedidos-table td {
-    padding: 15px;
-    text-align: left;
-    border-bottom: 1px solid #f0f0f0;
-    vertical-align: middle;
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+  vertical-align: middle;
 }
 
-.pedidos-table tr:last-child td {
-    border-bottom: none;
+.pedidos-table th {
+  background-color: #f9f9f9;
+  color: #666;
+  font-size: 0.85em;
+  text-transform: uppercase;
 }
 
-.pedidos-table thead th {
-    background-color: #f8f9fa;
-    color: #2c3e50;
-    font-weight: 600;
+.pedidos-table tbody tr:last-child td {
+  border-bottom: none;
 }
 
+.pedidos-table tbody tr:hover {
+  background-color: #fcfcfc;
+}
+
+/* Tags de Status */
 .status {
-    padding: 5px 10px;
-    border-radius: 15px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    text-align: center;
+  padding: 5px 12px;
+  border-radius: 15px;
+  font-weight: 500;
+  font-size: 0.9em;
+  text-transform: capitalize;
 }
 
 .status-pendente {
-    background-color: #f1c40f;
-    color: #333;
+  background-color: #fff3cd;
+  color: #856404;
 }
 
-.status-finalizado {
-    background-color: #2ecc71;
-    color: white;
+.status-concluido { /* Adicionei caso você tenha */
+  background-color: #d4edda;
+  color: #155724;
 }
 
-.status-cancelado {
-    background-color: #e74c3c;
-    color: white;
+.status-cancelado { /* Adicionei caso você tenha */
+  background-color: #f8d7da;
+  color: #721c24;
 }
 
-.actions-cell button {
-    border: none;
-    padding: 8px 12px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-right: 8px;
-    transition: background-color 0.2s;
+/* --- NOVO: Tags de Origem --- */
+.origem {
+  padding: 5px 12px;
+  border-radius: 15px;
+  font-size: 0.9em;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.origem-manual {
+  background-color: #e9ecef;
+  color: #495057;
+}
+
+.origem-whatsapp {
+  background-color: #25d366; /* Cor do WhatsApp */
+  color: white;
+}
+/* --- FIM (Novo) --- */
+
+/* Célula de Ações */
+.actions-cell {
+  text-align: right;
+  width: 150px;
 }
 
 .btn-detalhes {
-    background-color: #3498db;
-    color: white;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
 }
+
 .btn-detalhes:hover {
-    background-color: #2980b9;
+  background-color: #0056b3;
+}
+
+.filtros-pedidos {
+  margin-bottom: 25px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 15px;
+}
+
+.filtro-data {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.filtro-data label {
+  font-size: 0.9em;
+  color: #555;
+  font-weight: 500;
+}
+
+.filtro-data input[type="date"] {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 6px 8px;
+  font-family: inherit;
+  color: #333;
 }

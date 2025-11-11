@@ -23,15 +23,15 @@ const obterPedidos = async (req, res) => {
 
   if (dataInicio && dataFim) {
     filtro.createdAt = {
-      $gte: new Date(dataInicio),
-      $lte: new Date(new Date(dataFim).setHours(23, 59, 59, 999))
+      $gte: new Date(dataInicio + "T00:00:00"),
+      $lte: new Date(dataFim + "T23:59:59.999")
     };
   }
 
   try {
     const pedidos = await Pedido.find(filtro)
       .populate('cliente', 'nome')
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: 1 });
     res.json(pedidos);
   } catch (error) {
     console.error(error);

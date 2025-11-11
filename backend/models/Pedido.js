@@ -33,6 +33,10 @@ const pedidoSchema = new mongoose.Schema({
     enum: ['Pendente', 'Finalizado', 'Cancelado'],
     default: 'Pendente',
   },
+  origem: {
+    type: String, 
+    default: 'Manual'
+  },
   observacoes: {
     type: String,
     trim: true,

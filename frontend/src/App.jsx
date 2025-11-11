@@ -11,6 +11,7 @@ import EditarProduto from './pages/edicao/EditarProduto';
 import ProdutosDaCategoria from './pages/categorias/ProdutosDaCategoria';
 import ListaPedidos from './pages/listaPedidos/ListaPedidos';
 import DetalhesPedido from './pages/detalhesPedido/DetalhesPedido';
+import PedidosWhatsapp from './pages/pedidoswhatsapp/PedidosWhatsapp';
 
 function App() {
   const [sidebarRecolhida, setSidebarRecolhida] = useState(false);
@@ -36,6 +37,7 @@ function App() {
           <Route path='/pedidos' element={<PedidosPage />} />
           <Route path='pedidos/lista' element={<ListaPedidos />} />
           <Route path='/pedidos/:id' element={<DetalhesPedido />} />
+          <Route path='/pedidos-whatsapp' element={<PedidosWhatsapp />} />
         </Routes>
       </main>
     </div>

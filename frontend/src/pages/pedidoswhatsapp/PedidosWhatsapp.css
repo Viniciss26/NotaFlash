@@ -1,0 +1,68 @@
+
+.pedidos-whatsapp-page {
+  padding: 20px;
+  background-color: #f9f9f9;
+  min-height: 100vh;
+}
+
+.pedidos-whatsapp-page h2 {
+  color: #333;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 10px;
+}
+
+.pedidos-whatsapp-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.pedidos-whatsapp-table th,
+.pedidos-whatsapp-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+.pedidos-whatsapp-table th {
+  background-color: #f4f4f4;
+  color: #555;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.9em;
+}
+
+.pedidos-whatsapp-table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+.origem-whatsapp {
+  background-color: #25d366;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.9em;
+  font-weight: bold;
+}
+
+.actions-cell {
+  text-align: center;
+}
+
+.action-link {
+  text-decoration: none;
+  background-color: #007bff;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.action-link:hover {
+  background-color: #0056b3;
+}
