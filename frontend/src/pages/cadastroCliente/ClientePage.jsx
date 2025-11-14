@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import api from '../../api';
+import { IMaskInput } from 'react-imask';
 import './ClientePage.css';
 
 function CadastroCliente() {
@@ -46,11 +47,11 @@ function CadastroCliente() {
             </div>
             <div className="form-group-cliente">
               <label htmlFor="telefone">Telefone</label>
-              <input type="tel" id="telefone" value={telefone} onChange={(e) => setTelefone(e.target.value)} required />
+              <IMaskInput mask="(00) 00000-0000" unmask={true} id="telefone" value={telefone} onAccept={(e) => setTelefone(e.target.value)} placeholder="(00) 00000-0000" />
             </div>
             <div className="form-group-cliente">
               <label htmlFor="cep">CEP</label>
-              <input type="text" id="cep" value={cep} onChange={(e) => setCep(e.target.value)} />
+              <IMaskInput mask="00000-000" unmask={true} id="cep" value={cep} onAccept={(e) => setCep(e.target.value)} placeholder="00000-000" />
             </div>
             <div className="form-group-cliente full-width">
               <label htmlFor="endereco">Endereço</label>

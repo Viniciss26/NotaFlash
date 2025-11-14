@@ -65,23 +65,26 @@ function PedidosPage() {
   };
 
   const handleAddItemAoPedido = () => {
-    if (!produtoSelecionado || quantidade <= 0) {
+
+    const quantidadeNumerica = parseFloat(quantidade);
+
+    if (!produtoSelecionado || isNaN(quantidadeNumerica) || quantidadeNumerica <= 0) {
       alert('Selecione um produto e defina uma quantidade válida.');
-      return;
+      return
     }
-    
+
     setItensDoPedido([...itensDoPedido, {
       ...produtoSelecionado,
-      quantidade: Number(quantidade),
-      unidade: unidadeSelecionada,
+      quantidade: quantidadeNumerica,
+      unidade: unidadeSelecionada
     }]);
 
     setProdutoSelecionado(null);
     setBuscaProduto('');
-    setQuantidade(1);
-    setUnidadeSelecionada('un');
-  };
-
+    setQuantidade('');
+    setUnidadeSelecionada('und')
+    };
+    
   const handleRemoverItem = (idDoItem) => {
     setItensDoPedido(itensDoPedido.filter(item => item._id !== idDoItem));
   };
@@ -93,7 +96,6 @@ function PedidosPage() {
   const handleFinalizarPedido = async (event) => {
     event.preventDefault();
 
-    // Validações
     if (!clienteSelecionado) {
       return alert('Por favor, selecione um cliente.');
     }
@@ -160,19 +162,19 @@ function PedidosPage() {
                     <div className="search-results">{produtosEncontrados.map(produto => (<div key={produto._id} onClick={() => handleSelecionaProduto(produto)}>{produto.nome}</div>))}</div>
                 )}
                 </div>
-                
+
                 <div className="form-group-pedido">
                 <label>Quantidade</label>
-                <input type="number" value={quantidade} onChange={(e) => setQuantidade(e.target.value)} min="0.01" step={unidadeSelecionada === 'kg' ? '0.01' : '1'}/>
+                <input type="text" value={quantidade} onChange={(e) => setQuantidade(e.target.value.replace(',', '.'))} min="0.01" step={unidadeSelecionada === 'kg' ? '0.01' : '1'}/>
                 </div>
 
                 <div className="form-group-pedido">
                 <label>Unidade</label>
                 <select value={unidadeSelecionada} onChange={(e) => setUnidadeSelecionada(e.target.value)}>
-                    <option value="un">un</option> <option value="kg">kg</option> <option value="pct">pct</option> <option value="cx">cx</option>
+                    <option value="und">und</option> <option value="kg">kg</option> <option value="pct">pct</option> <option value="cx">cx</option>
                 </select>
                 </div>
-                
+
                 <div>
                     <label>&nbsp;</label>
                     <button type="button" className="add-produto-btn" onClick={handleAddItemAoPedido}>Adicionar</button>
@@ -220,6 +222,7 @@ function PedidosPage() {
       </form>
     </div>
   );
+
 }
 
 export default PedidosPage;
