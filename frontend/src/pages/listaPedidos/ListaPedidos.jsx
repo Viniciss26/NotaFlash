@@ -73,9 +73,16 @@ function ListaPedidos() {
     <div className="lista-pedidos-page">
       <div className="lista-header">
         <h2>Histórico de Pedidos</h2>
+        <div className="header-actions">
+          {/* BOTÃO NOVO DO WHATSAPP */}
+          <Link to="/pedidos-whatsapp" className="btn-whatsapp">
+            <span className="icon">📱</span> Painel WhatsApp
+          </Link>
+
         <Link to="/pedidos" className="btn-adicionar">
           + Novo Pedido
         </Link>
+        </div>
       </div>
 
       <div className="filtros-pedidos">

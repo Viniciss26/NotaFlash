@@ -1,0 +1,81 @@
+/* src/components/CupomFiscal.css */
+
+/* 1. ESCONDE O CUPOM NA TELA NORMAL DO SITE */
+.area-impressao {
+  display: none;
+}
+
+/* 2. REGRAS PARA QUANDO MANDAR IMPRIMIR */
+@media print {
+  
+  /* Esconde TUDO que existe no site (menus, botões, sidebar) */
+  body * {
+    visibility: hidden;
+    height: 0;
+    overflow: hidden;
+  }
+
+  /* Mostra APENAS a área de impressão */
+  .area-impressao, .area-impressao * {
+    visibility: visible;
+    height: auto;
+  }
+
+  /* Posiciona o cupom no topo esquerdo do papel */
+  .area-impressao {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* 3. ESTILIZAÇÃO DO CUPOM (Visual de Nota Fiscal) */
+  .cupom-conteudo {
+    width: 80mm; /* Largura padrão (ajuste para 58mm se sua impressora for pequena) */
+    font-family: 'Courier New', Courier, monospace; /* Fonte boa para impressora térmica */
+    font-size: 12px;
+    color: black;
+    padding: 5px;
+  }
+
+  .cupom-header {
+    text-align: center;
+    margin-bottom: 10px;
+    border-bottom: 1px dashed #000;
+  }
+
+  .cupom-info {
+    margin-bottom: 10px;
+    font-size: 11px;
+    border-bottom: 1px dashed #000;
+    padding-bottom: 5px;
+  }
+
+  .cupom-itens {
+    margin-bottom: 10px;
+    border-bottom: 1px dashed #000;
+    padding-bottom: 5px;
+  }
+
+  .item-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+  }
+
+  .cupom-total {
+    text-align: right;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+
+  .cupom-footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 10px;
+  }
+}

@@ -1,47 +1,98 @@
 import express from 'express';
+import Pedido from '../models/Pedido.js';
+import Cliente from '../models/Cliente.js';
+import Produto from '../models/Produto.js';
 
 const router = express.Router();
 
-function parsePedido(textoDoWhatsapp) {
-  console.log("Iniciando o 'tradutor' para:", textoDoWhatsapp);
-  
-  const linhas = textoDoWhatsapp.split('\n');
-  const itensDoPedido = [];
-  const regex = /(\d+)\s*(KG|UND|G|PCT|CX)\s+(?:de\s+)?(.+)/i;
+const limparTelefone = (telefoneBruto) => {
+  // Remove tudo que não é dígito e o "55" inicial se houver
+  return telefoneBruto.replace(/\D/g, '').replace(/^55/, ''); 
+};
+
+async function processarItensDoPedido(texto) {
+  const linhas = texto.split('\n');
+  const itensParaSalvar = [];
+  let totalCalculado = 0;
+  const regex = /(\d+[\.,]?\d*)\s*(KG|UN|G|PCT|CX)\s+(?:de\s+)?(.+)/i;
 
   for (const linha of linhas) {
     const match = linha.trim().match(regex);
 
     if (match) {
-      itensDoPedido.push({
-        quantidade: parseInt(match[1], 10),
-        unidade: match[2].toUpperCase(),
-        produto: match[3].trim()
+      const qtdTexto = match[1].replace(',', '.'); 
+      const quantidade = parseFloat(qtdTexto);
+      const nomeProdutoTexto = match[3].trim();
+
+      // --- BUSCA NO BANCO ---
+      const produtoEncontrado = await Produto.findOne({ 
+        nome: { $regex: nomeProdutoTexto, $options: 'i' } 
       });
-    } else if (linha.trim() !== "") {
-      console.log(`Linha ignorada (formato não reconhecido): "${linha}"`);
+
+      if (produtoEncontrado) {
+        const preco = produtoEncontrado.precoVenda;
+        const subtotal = quantidade * preco;
+        totalCalculado += parseFloat(subtotal.toFixed(2));
+
+        itensParaSalvar.push({
+          produto: produtoEncontrado._id,
+          quantidade: quantidade,
+          precoUnitario: preco
+        });
+        
+        console.log(`✅ Produto identificado: ${produtoEncontrado.nome} | Qtd: ${quantidade} | Total: ${subtotal}`);
+      } else {
+        console.log(`⚠️ Produto não encontrado no banco: "${nomeProdutoTexto}"`);
+      }
     }
   }
 
-  return itensDoPedido;
+  return { itens: itensParaSalvar, total: parseFloat(totalCalculado.toFixed(2)) };
 }
 
-router.post('/webhook', (req, res) => {
-  console.log("==========================================");
-  console.log(">>> MENSAGEM DO WHATSAPP RECEBIDA! <<<");
-  
-  const remetente = req.body.From;
-  const mensagem = req.body.Body;
+router.post('/webhook', async (req, res) => {
+  console.log(">>> WHATSAPP: Mensagem Recebida <<<");
 
-  console.log('De:', remetente);
-  console.log('Mensagem:', mensagem);
-  console.log("==========================================");
+  try {
+    const { Body, From } = req.body;
+    if (!Body || !From) return res.status(200).send('OK');
 
-  const itensFormatados = parsePedido(mensagem);
+    const telefoneLimpo = limparTelefone(From);
+    console.log(`De: ${telefoneLimpo} | Msg: ${Body}`);
+    let cliente = await Cliente.findOne({ telefone: { $regex: telefoneLimpo } });
 
-  console.log(">>> PEDIDO TRADUZIDO COM SUCESSO <<<");
-  console.log(itensFormatados);
-  console.log("==========================================");
+    if (!cliente) {
+      console.log("Cliente não encontrado pelo telefone. Usando 'Cliente Padrão' (o primeiro do banco) para teste.");
+      cliente = await Cliente.findOne(); 
+    }
+
+    if (!cliente) {
+      console.log("ERRO: Nenhum cliente existe no banco de dados. Cadastre pelo menos um cliente.");
+      return res.status(200).send('OK');
+    }
+
+    const { itens, total } = await processarItensDoPedido(Body);
+
+    if (itens.length === 0) {
+      console.log("Nenhum item válido identificado. Ignorando criação de pedido.");
+      return res.status(200).send('OK');
+    }
+
+    const novoPedido = new Pedido({
+      cliente: cliente._id,
+      itens: itens,
+      total: total,
+      origem: 'whatsapp',
+      status: 'Pendente',
+      observacoes: `Pedido via WhatsApp:\n${Body}`
+    });
+
+    await novoPedido.save();
+    console.log("🎉 SUCESSO! Pedido WhatsApp salvo no banco com ID:", novoPedido._id);
+
+  } catch (error) {
+    console.error("Erro ao processar webhook:", error);
+  }
 
   res.status(200).send('OK');
 });
