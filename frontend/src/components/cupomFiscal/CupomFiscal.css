@@ -34,9 +34,9 @@
 
   /* 3. ESTILIZAÇÃO DO CUPOM (Visual de Nota Fiscal) */
   .cupom-conteudo {
-    width: 80mm; /* Largura padrão (ajuste para 58mm se sua impressora for pequena) */
-    font-family: 'Courier New', Courier, monospace; /* Fonte boa para impressora térmica */
-    font-size: 12px;
+    width: 80mm;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
     color: black;
     padding: 5px;
   }
@@ -49,7 +49,8 @@
 
   .cupom-info {
     margin-bottom: 10px;
-    font-size: 11px;
+    font-size: 13px;
+    line-height: 1.4;
     border-bottom: 1px dashed #000;
     padding-bottom: 5px;
   }
@@ -63,14 +64,14 @@
   .item-row {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
   }
 
   .cupom-total {
     text-align: right;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: bold;
-    margin-top: 10px;
+    margin-top: 2px solid #000000;
   }
 
   .cupom-footer {

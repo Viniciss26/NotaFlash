@@ -40,6 +40,21 @@ function ListaPedidos() {
       navigate(`/pedidos/${pedidoId}`);
   };
 
+  const handleFinalizar = async (pedidoId) => {
+  if (!window.confirm("Deseja marcar este pedido como Finalizado?")) return;
+
+  try {
+    // Faz a chamada para a rota PATCH que criamos no backend
+    await api.patch(`/pedidos/${pedidoId}/status`, { status: 'Finalizado' });
+    
+    // Recarrega a página ou atualiza o estado para refletir a mudança
+    window.location.reload(); 
+  } catch (error) {
+    console.error("Erro ao finalizar pedido:", error);
+    alert("Erro ao finalizar pedido.");
+  }
+};
+
   useEffect(() => {
     const fetchPedidos = async () => {
       setLoading(true);
@@ -162,6 +177,22 @@ function ListaPedidos() {
                     </td>
                     <td className="actions-cell">
                       <button className="btn-detalhes" onClick={() => handleDetalhes(pedido._id)}>Ver Detalhes</button>
+                    </td>
+                    <td className="actions-cell">
+                      <button className="btn-detalhes" onClick={() => handleDetalhes(pedido._id)}>
+                        Ver Detalhes
+                      </button>
+
+                      {/* BOTÃO NOVO: Só aparece se o pedido NÃO estiver finalizado */}
+                      {pedido.status !== 'Finalizado' && (
+                        <button 
+                          className="btn-finalizar" 
+                          style={{ backgroundColor: '#28a745', color: 'white', marginLeft: '5px', padding: '5px 10px', borderRadius: '4px', border: 'none', cursor: 'pointer' }}
+                          onClick={() => handleFinalizar(pedido._id)}
+                        >
+                          Finalizar
+                        </button>
+                      )}
                     </td>
                   </tr>
                 ))}
