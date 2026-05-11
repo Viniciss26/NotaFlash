@@ -7,8 +7,8 @@ import './ListaPedidos.css';
 
 const agruparPedidosPorData = (pedidos) => {
   return pedidos.reduce((acc, pedido) => {
-    // Usando 'createdAt' como você definiu no seu backend
-    const dataPedido = new Date(pedido.createdAt); 
+    // Usando 'criadoEm' conforme está no seu banco de dados
+    const dataPedido = new Date(pedido.criadoEm || pedido.createdAt); 
     const dataFormatada = format(dataPedido, 'yyyy-MM-dd');
     if (!acc[dataFormatada]) {
       acc[dataFormatada] = [];
@@ -41,23 +41,23 @@ function ListaPedidos() {
   };
 
   const handleFinalizar = async (pedidoId) => {
-  if (!window.confirm("Deseja marcar este pedido como Finalizado?")) return;
-
-  try {
-    // Faz a chamada para a rota PATCH que criamos no backend
-    await api.patch(`/pedidos/${pedidoId}/status`, { status: 'Finalizado' });
-    
-    // Recarrega a página ou atualiza o estado para refletir a mudança
-    window.location.reload(); 
-  } catch (error) {
-    console.error("Erro ao finalizar pedido:", error);
-    alert("Erro ao finalizar pedido.");
-  }
-};
+    if (!window.confirm("Deseja marcar este pedido como Finalizado?")) return;
+    try {
+      // Ajustado para incluir /api/pedidos conforme seu server.js
+      await api.patch(`/pedidos/${pedidoId}/status`, { status: 'Finalizado' });
+      window.location.reload(); 
+    } catch (error) {
+      console.error("Erro ao finalizar pedido:", error);
+      alert("Erro ao finalizar pedido.");
+    }
+  };
 
   useEffect(() => {
     const fetchPedidos = async () => {
       setLoading(true);
+      
+      // Se o seu 'api' (axios) já tem a baseURL com '/api', use apenas '/pedidos'
+      // Se não tiver, use '/api/pedidos'
       let endpoint = '/pedidos'; 
       if (filtro === 'manual') {
         endpoint = '/pedidos/manual';
@@ -71,7 +71,6 @@ function ListaPedidos() {
 
       try {
         const response = await api.get(endpoint, { params });
-
         const agrupados = agruparPedidosPorData(response.data);
         setPedidosAgrupados(agrupados);
       } catch (error) {
@@ -82,61 +81,34 @@ function ListaPedidos() {
     fetchPedidos();
   }, [dataInicio, dataFim, filtro]);
 
-  const datasOrdenadas = Object.keys(pedidosAgrupados).sort((a, b) => new Date(a) - new Date(b));
+  const datasOrdenadas = Object.keys(pedidosAgrupados).sort((a, b) => new Date(b) - new Date(a));
 
   return (
     <div className="lista-pedidos-page">
       <div className="lista-header">
         <h2>Histórico de Pedidos</h2>
         <div className="header-actions">
-          {/* BOTÃO NOVO DO WHATSAPP */}
           <Link to="/pedidos-whatsapp" className="btn-whatsapp">
             <span className="icon">📱</span> Painel WhatsApp
           </Link>
-
-        <Link to="/pedidos" className="btn-adicionar">
-          + Novo Pedido
-        </Link>
+          <Link to="/pedidos" className="btn-adicionar">
+            + Novo Pedido
+          </Link>
         </div>
       </div>
 
       <div className="filtros-pedidos">
-        <button
-          className={filtro === 'todos' ? 'filtro-btn active' : 'filtro-btn'}
-          onClick={() => setFiltro('todos')}
-        >
-          Todos
-        </button>
-        <button
-          className={filtro === 'manual' ? 'filtro-btn active' : 'filtro-btn'}
-          onClick={() => setFiltro('manual')}
-        >
-          Pedidos Manuais
-        </button>
-        <button
-          className={filtro === 'whatsapp' ? 'filtro-btn active' : 'filtro-btn'}
-          onClick={() => setFiltro('whatsapp')}
-        >
-          Pedidos WhatsApp
-        </button>
+        <button className={filtro === 'todos' ? 'filtro-btn active' : 'filtro-btn'} onClick={() => setFiltro('todos')}>Todos</button>
+        <button className={filtro === 'manual' ? 'filtro-btn active' : 'filtro-btn'} onClick={() => setFiltro('manual')}>Pedidos Manuais</button>
+        <button className={filtro === 'whatsapp' ? 'filtro-btn active' : 'filtro-btn'} onClick={() => setFiltro('whatsapp')}>Pedidos WhatsApp</button>
 
         <div className="filtro-data">
-          <label htmlFor="dataInicio">De:</label>
-          <input
-            type="date"
-            id="dataInicio"
-            value={dataInicio}
-            onChange={(e) => setDataInicio(e.target.value)}
-          />
+          <label>De:</label>
+          <input type="date" value={dataInicio} onChange={(e) => setDataInicio(e.target.value)} />
         </div>
         <div className="filtro-data">
-          <label htmlFor="dataFim">Até:</label>
-          <input
-            type="date"
-            id="dataFim"
-            value={dataFim}
-            onChange={(e) => setDataFim(e.target.value)}
-          />
+          <label>Até:</label>
+          <input type="date" value={dataFim} onChange={(e) => setDataFim(e.target.value)} />
         </div>
       </div>
 
@@ -164,9 +136,9 @@ function ListaPedidos() {
                 {pedidosAgrupados[data].map(pedido => (
                   <tr key={pedido._id}>
                     <td>{pedido.cliente?.nome || 'Cliente não encontrado'}</td>
-                    <td>R$ {(pedido.total || pedido.valorTotal || 0).toFixed(2)}</td>
+                    <td>R$ {(pedido.total || 0).toFixed(2)}</td>
                     <td>
-                      <span className={`status status-${pedido.status.toLowerCase()}`}>
+                      <span className={`status status-${pedido.status?.trim().toLowerCase()}`}>
                         {pedido.status}
                       </span>
                     </td>
@@ -176,15 +148,10 @@ function ListaPedidos() {
                       </span>
                     </td>
                     <td className="actions-cell">
-                      <button className="btn-detalhes" onClick={() => handleDetalhes(pedido._id)}>Ver Detalhes</button>
-                    </td>
-                    <td className="actions-cell">
                       <button className="btn-detalhes" onClick={() => handleDetalhes(pedido._id)}>
                         Ver Detalhes
                       </button>
-
-                      {/* BOTÃO NOVO: Só aparece se o pedido NÃO estiver finalizado */}
-                      {pedido.status !== 'Finalizado' && (
+                      {pedido.status?.trim() !== 'Finalizado' && (
                         <button 
                           className="btn-finalizar" 
                           style={{ backgroundColor: '#28a745', color: 'white', marginLeft: '5px', padding: '5px 10px', borderRadius: '4px', border: 'none', cursor: 'pointer' }}
