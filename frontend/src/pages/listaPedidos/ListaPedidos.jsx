@@ -7,7 +7,6 @@ import './ListaPedidos.css';
 
 const agruparPedidosPorData = (pedidos) => {
   return pedidos.reduce((acc, pedido) => {
-    // Usando 'criadoEm' conforme está no seu banco de dados
     const dataPedido = new Date(pedido.criadoEm || pedido.createdAt); 
     const dataFormatada = format(dataPedido, 'yyyy-MM-dd');
     if (!acc[dataFormatada]) {
@@ -36,28 +35,34 @@ function ListaPedidos() {
   const [dataFim, setDataFim] = useState(today);
   const [filtro, setFiltro] = useState('todos');
 
+  const [pedidoImprimindo, setPedidoImprimindo] = useState(null);
+
   const handleDetalhes = (pedidoId) => {
       navigate(`/pedidos/${pedidoId}`);
   };
 
   const handleFinalizar = async (pedidoId) => {
-    if (!window.confirm("Deseja marcar este pedido como Finalizado?")) return;
+    if (!window.confirm("Deseja marcar este pedido como Finalizado e imprimir o cupom?")) return;
     try {
-      // Ajustado para incluir /api/pedidos conforme seu server.js
+      setPedidoImprimindo(pedidoId);
+      
       await api.patch(`/pedidos/${pedidoId}/status`, { status: 'Finalizado' });
-      window.location.reload(); 
+      
+      setTimeout(() => {
+        setPedidoImprimindo(null);
+        window.location.reload(); 
+      }, 1500);
+
     } catch (error) {
       console.error("Erro ao finalizar pedido:", error);
       alert("Erro ao finalizar pedido.");
+      setPedidoImprimindo(null);
     }
   };
 
   useEffect(() => {
     const fetchPedidos = async () => {
       setLoading(true);
-      
-      // Se o seu 'api' (axios) já tem a baseURL com '/api', use apenas '/pedidos'
-      // Se não tiver, use '/api/pedidos'
       let endpoint = '/pedidos'; 
       if (filtro === 'manual') {
         endpoint = '/pedidos/manual';
@@ -151,13 +156,24 @@ function ListaPedidos() {
                       <button className="btn-detalhes" onClick={() => handleDetalhes(pedido._id)}>
                         Ver Detalhes
                       </button>
+                      
+                      {/* ALTERAÇÃO DA SPRINT 5: O botão agora muda o texto e desabilita enquanto processa */}
                       {pedido.status?.trim() !== 'Finalizado' && (
                         <button 
                           className="btn-finalizar" 
-                          style={{ backgroundColor: '#28a745', color: 'white', marginLeft: '5px', padding: '5px 10px', borderRadius: '4px', border: 'none', cursor: 'pointer' }}
+                          disabled={pedidoImprimindo === pedido._id}
+                          style={{ 
+                            backgroundColor: pedidoImprimindo === pedido._id ? '#6c757d' : '#28a745', 
+                            color: 'white', 
+                            marginLeft: '5px', 
+                            padding: '5px 10px', 
+                            borderRadius: '4px', 
+                            border: 'none', 
+                            cursor: pedidoImprimindo === pedido._id ? 'not-allowed' : 'pointer' 
+                          }}
                           onClick={() => handleFinalizar(pedido._id)}
                         >
-                          Finalizar
+                          {pedidoImprimindo === pedido._id ? "Imprimindo..." : "Finalizar"}
                         </button>
                       )}
                     </td>
