@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import Home from './pages/home/Home';
 import Sidebar from './components/sidebar/Sidebar';
 import ProdutosPage from './pages/cadastroProdutos/ProdutosPage';
 import PedidosPage from './pages/cadastroPedidos/PedidosPage';
@@ -27,7 +28,7 @@ function App() {
       
       <main className={`main-content ${sidebarRecolhida ? 'recolhido' : ''}`}>
         <Routes>
-          <Route path="/" element={<h2>Página Inicial</h2>} />
+          <Route path="/" element={<Home />} />
           <Route path="/clientes" element={<ListaClientes />} />
           <Route path='/clientes/cadastrar' element={<CadastroCliente />} />
           <Route path='/clientes/editar/:id' element={<EditarCliente />} />

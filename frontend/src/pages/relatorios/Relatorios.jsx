@@ -1,86 +1,199 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import {
-  Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, 
-  Title, Tooltip, Legend, ArcElement
-} from 'chart.js';
-import { Line, Pie } from 'react-chartjs-2';
+import { useState, useEffect } from 'react';
+import api from "../../api";
+import { format, subDays, startOfMonth, endOfMonth } from 'date-fns';
+import './Relatorios.css';
 
-// Registro obrigatório dos componentes do Chart.js
-ChartJS.register(
-  CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, ArcElement
-);
+function Relatorios() {
+  const todayStr = format(new Date(), 'yyyy-MM-dd');
+  
+  const [dataInicio, setDataInicio] = useState(todayStr);
+  const [dataFim, setDataFim] = useState(todayStr);
+  const [loading, setLoading] = useState(false);
+  
+  // Estados para armazenar os dados consolidados do backend
+  const [resumoFinanceiro, setResumoFinanceiro] = useState({
+    faturamentoTotal: 0,
+    qtdPedidos: 0,
+    ticketMedio: 0,
+    whatsappPedidos: 0,
+    manualPedidos: 0
+  });
+  const [historicoDias, setHistoricoDias] = useState([]);
+  const [rankingProdutos, setRankingProdutos] = useState([]);
 
-export default function Relatorios() {
-  const [faturamento, setFaturamento] = useState([]);
-  const [produtos, setProdutos] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const carregarDados = async () => {
-      try {
-        const [resFat, resProd] = await Promise.all([
-          axios.get('http://localhost:5000/api/pedidos/relatorios/faturamento'),
-          axios.get('http://localhost:5000/api/pedidos/relatorios/produtos-mais-vendidos')
-        ]);
-        setFaturamento(resFat.data);
-        setProdutos(resProd.data);
-      } catch (err) {
-        console.error("Erro ao carregar relatórios", err);
-      } finally {
-        setLoading(false);
+  // Função para buscar os dados baseados no período de datas
+  const carregarRelatorios = async (inicio, fim) => {
+    setLoading(true);
+    try {
+      // Faz a chamada enviando as datas como query params para o seu backend
+      const response = await api.get('/relatorios/faturamento', {
+        params: { dataInicio: inicio, dataFim: fim }
+      });
+      
+      // Ajuste os campos abaixo conforme o formato exato que o seu backend retorna
+      if (response.data) {
+        setResumoFinanceiro(response.data.resumo || {
+          faturamentoTotal: response.data.faturamentoTotal || 0,
+          qtdPedidos: response.data.qtdPedidos || 0,
+          ticketMedio: response.data.ticketMedio || 0,
+          whatsappPedidos: response.data.whatsappPedidos || 0,
+          manualPedidos: response.data.manualPedidos || 0
+        });
+        setHistoricoDias(response.data.historico || []);
+        setRankingProdutos(response.data.produtos || []);
       }
-    };
-    carregarDados();
+    } catch (error) {
+      console.error("Erro ao carregar dados do fechamento:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Executa a busca sempre que o botão de filtrar for clicado manualmente
+  const handleFiltrarManualmente = (e) => {
+    e.preventDefault();
+    carregarRelatorios(dataInicio, dataFim);
+  };
+
+  // Atalhos rápidos de clique que já disparam a busca na hora
+  const aplicarFiltroRapido = (tipo) => {
+    let inicio = todayStr;
+    let fim = todayStr;
+
+    if (tipo === 'ontem') {
+      const ontem = format(subDays(new Date(), 1), 'yyyy-MM-dd');
+      inicio = ontem;
+      fim = ontem;
+    } else if (tipo === 'semana') {
+      inicio = format(subDays(new Date(), 7), 'yyyy-MM-dd');
+    } else if (tipo === 'mes') {
+      inicio = format(startOfMonth(new Date()), 'yyyy-MM-dd');
+      fim = format(endOfMonth(new Date()), 'yyyy-MM-dd');
+    }
+
+    setDataInicio(inicio);
+    setDataFim(fim);
+    carregarRelatorios(inicio, fim);
+  };
+
+  // Carrega os dados de "Hoje" por padrão ao abrir a tela
+  useEffect(() => {
+    carregarRelatorios(todayStr, todayStr);
   }, []);
 
-  // Dados Gráfico de Linha
-  const lineData = {
-    labels: faturamento.map(d => d._id),
-    datasets: [{
-      label: 'Vendas R$',
-      data: faturamento.map(d => d.totalVendas),
-      borderColor: '#3b82f6',
-      backgroundColor: 'rgba(59, 130, 246, 0.1)',
-      tension: 0.4,
-      fill: true
-    }]
-  };
-
-  // Dados Gráfico de Pizza
-  const pieData = {
-    labels: produtos.map(p => p._id),
-    datasets: [{
-      data: produtos.map(p => p.quantidadeVendida),
-      backgroundColor: ['#ff6384', '#36a2eb', '#ffce56', '#4bc0c0', '#9966ff'],
-    }]
-  };
-
-  if (loading) return <p style={{ padding: '20px' }}>Carregando dashboard...</p>;
-
   return (
-    <div style={{ padding: '30px', backgroundColor: '#f8fafc', minHeight: '100vh' }}>
-      <h1 style={{ marginBottom: '20px' }}>Relatórios Gerenciais</h1>
-
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '20px' }}>
-        
-        {/* Card Linha */}
-        <div style={{ background: '#fff', padding: '20px', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}>
-          <h3>Faturamento por Dia</h3>
-          <div style={{ height: '300px' }}>
-            <Line data={lineData} options={{ responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }} />
-          </div>
-        </div>
-
-        {/* Card Pizza */}
-        <div style={{ background: '#fff', padding: '20px', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}>
-          <h3>Top Produtos</h3>
-          <div style={{ height: '300px' }}>
-            <Pie data={pieData} options={{ responsive: true, maintainAspectRatio: false }} />
-          </div>
-        </div>
-
+    <div className="relatorios-container">
+      <div className="relatorios-header">
+        <h2>Fechamento de Caixa & Relatórios</h2>
       </div>
+
+      {/* BARRA DE FILTROS TEMPORAIS */}
+      <div className="filtros-card">
+        <div className="botoes-atalho">
+          <button onClick={() => aplicarFiltroRapido('hoje')} className="btn-atalho">Hoje</button>
+          <button onClick={() => aplicarFiltroRapido('ontem')} className="btn-atalho">Ontem</button>
+          <button onClick={() => aplicarFiltroRapido('semana')} className="btn-atalho">Últimos 7 Dias</button>
+          <button onClick={() => aplicarFiltroRapido('mes')} className="btn-atalho">Este Mês</button>
+        </div>
+
+        <form onSubmit={handleFiltrarManualmente} className="form-datas">
+          <div className="input-grupo">
+            <label>De:</label>
+            <input type="date" value={dataInicio} onChange={(e) => setDataInicio(e.target.value)} />
+          </div>
+          <div className="input-grupo">
+            <label>Até:</label>
+            <input type="date" value={dataFim} onChange={(e) => setDataFim(e.target.value)} />
+          </div>
+          <button type="submit" className="btn-filtrar">Atualizar Painel</button>
+        </form>
+      </div>
+
+      {loading ? (
+        <p className="loading-texto">Buscando dados no banco...</p>
+      ) : (
+        <>
+          {/* GRID DE CARDS FINANCEIROS (KPIs) */}
+          <div className="kpi-grid">
+            <div className="kpi-card destaque-money">
+              <h3>Faturamento Bruto</h3>
+              <p className="kpi-valor">R$ {resumoFinanceiro.faturamentoTotal.toFixed(2)}</p>
+            </div>
+            <div className="kpi-card">
+              <h3>Total de Pedidos</h3>
+              <p className="kpi-valor">{resumoFinanceiro.qtdPedidos}</p>
+            </div>
+            <div className="kpi-card">
+              <h3>Ticket Médio</h3>
+              <p className="kpi-valor">R$ {resumoFinanceiro.ticketMedio.toFixed(2)}</p>
+            </div>
+            <div className="kpi-card">
+              <h3>Canais de Venda</h3>
+              <p className="kpi-subvalor">📱 WhatsApp: <strong>{resumoFinanceiro.whatsappPedidos}</strong></p>
+              <p className="kpi-subvalor">💻 Balcão/Manual: <strong>{resumoFinanceiro.manualPedidos}</strong></p>
+            </div>
+          </div>
+
+          {/* SEÇÃO INFERIOR: HISTÓRICO VS PRODUTOS */}
+          <div className="dados-detalhados-grid">
+            
+            {/* TABELA DE AUDITORIA DIÁRIA */}
+            <div className="tabela-card-painel">
+              <h3>Levantamento de Caixa por Dia</h3>
+              <div className="tabela-wrapper">
+                <table className="painel-table">
+                  <thead>
+                    <tr>
+                      <th>Data</th>
+                      <th>Qtd Pedidos</th>
+                      <th>Total Faturado</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {historicoDias.length === 0 ? (
+                      <tr><td colSpan="3" className="tabela-vazia">Nenhum registro para este período.</td></tr>
+                    ) : (
+                      historicoDias.map((item, idx) => (
+                        <tr key={idx}>
+                          <td>{item.data}</td>
+                          <td>{item.qtd}</td>
+                          <td className="coluna-money">R$ {item.total.toFixed(2)}</td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* LISTA DE RANKING DE PRODUTOS */}
+            <div className="tabela-card-painel">
+              <h3>Ranking de Itens Mais Vendidos</h3>
+              <div className="ranking-lista">
+                {rankingProdutos.length === 0 ? (
+                  <p className="tabela-vazia">Nenhum produto vendido no período.</p>
+                ) : (
+                  rankingProdutos.map((prod, index) => (
+                    <div key={index} className="ranking-item">
+                      <div className="ranking-posicao">{index + 1}º</div>
+                      <div className="ranking-detalhes">
+                        <span className="ranking-nome">{prod.nome}</span>
+                        <span className="ranking-qtd">{prod.quantidade} unidades vendidas</span>
+                      </div>
+                      <div className="ranking-total-valor">
+                        R$ {(prod.totalFaturado || 0).toFixed(2)}
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+
+          </div>
+        </>
+      )}
     </div>
   );
 }
+
+export default Relatorios;

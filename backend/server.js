@@ -7,6 +7,7 @@ import clientesRoutes from './routes/clientesRoutes.js';
 import produtosRoutes from './routes/produtosRoutes.js';
 import pedidosRoutes from './routes/pedidosRoutes.js';
 import whatsappRoutes from './routes/whatsappRoutes.js';
+import relatoriosRoutes from './routes/relatoriosRoutes.js';
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use('/api/clientes', clientesRoutes);
 app.use('/api/produtos', produtosRoutes);
 app.use('/api/pedidos', pedidosRoutes);
 app.use('/api/whatsapp', whatsappRoutes);
+app.use('/api/relatorios', relatoriosRoutes);
 
 const PORT = process.env.PORT || 5000;
 
